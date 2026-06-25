@@ -28,8 +28,8 @@ const confettiPieces = Array.from({ length: 90 }, (_, index) => ({
   id: index,
   color: confettiColors[index % confettiColors.length],
   left: (index * 37) % 100,
-  delay: (index % 12) * 0.045,
-  duration: 2.1 + (index % 7) * 0.12,
+  delay: (index % 12) * 0.06,
+  duration: 4 + (index % 7) * 0.12,
   drift: ((index * 29) % 180) - 90,
   rotation: 360 + (index % 5) * 180,
   size: 6 + (index % 4) * 2,
@@ -325,7 +325,7 @@ function Board({ onLogout, profile }) {
   const celebrate = useCallback(() => {
     window.clearTimeout(confettiTimerRef.current);
     setConfettiRun((current) => current + 1);
-    confettiTimerRef.current = window.setTimeout(() => setConfettiRun(0), 3000);
+    confettiTimerRef.current = window.setTimeout(() => setConfettiRun(0), 5000);
   }, []);
 
   const handleTaskEvent = useCallback(
