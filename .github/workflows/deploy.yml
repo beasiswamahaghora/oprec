@@ -1,0 +1,51 @@
+name: Deploy to Cloudflare
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: production-deployment
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CLOUDFLARE_ACCOUNT_ID: bf719ecded6851f29f88e2879c7e551e
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Verify Cloudflare credentials
+        if: env.CLOUDFLARE_API_TOKEN == ''
+        run: |
+          echo "::warning::Deployment skipped until the CLOUDFLARE_API_TOKEN repository secret is added."
+
+      - name: Deploy realtime Worker
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        run: npx wrangler deploy --config realtime-worker/wrangler.jsonc
+
+      - name: Deploy Pages application
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        run: npx wrangler pages deploy dist --project-name oprec --branch main

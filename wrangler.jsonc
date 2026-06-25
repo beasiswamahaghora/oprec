@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "teamboard",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-06-25",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "teamboard",
+      "database_id": "065ab0e6-3705-4e4c-abc8-3df5b7968118",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "CURSOR_ROOM",
+        "class_name": "CursorRoom",
+        "script_name": "oprec-realtime"
+      }
+    ]
+  }
+}

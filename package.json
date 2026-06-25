@@ -1,0 +1,25 @@
+{
+  "name": "teamboard",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "pages:dev": "npm run build && wrangler pages dev dist",
+    "db:migrate:local": "wrangler d1 migrations apply teamboard --local",
+    "db:migrate:remote": "wrangler d1 migrations apply teamboard --remote",
+    "deploy": "npm run build && wrangler pages deploy dist"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.4.1",
+    "lucide-react": "^0.468.0",
+    "vite": "^6.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.20.0"
+  }
+}

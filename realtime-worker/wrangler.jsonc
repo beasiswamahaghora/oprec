@@ -1,0 +1,23 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "oprec-realtime",
+  "main": "src/index.js",
+  "compatibility_date": "2026-06-25",
+  "workers_dev": false,
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "CURSOR_ROOM",
+        "class_name": "CursorRoom"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "CursorRoom"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.wrangler/
+.agents/
+.codex/
+.design/
+.dev.vars
+.env
+*.log
