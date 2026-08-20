@@ -75,15 +75,31 @@ Wrangler prints the local URL, normally `http://localhost:8788`.
 
    Also confirm that the D1 database is bound as `DB`, then redeploy.
 
+The `db:migrate:remote` command targets the configured remote D1 database. Run
+it only from a trusted maintainer environment after confirming the target
+database; it is not part of the public contribution workflow.
+
 ## GitHub Actions deployment
 
 Pushes to `main` deploy the realtime Worker and Pages app through
 `.github/workflows/deploy.yml`.
 
-The private GitHub repository must contain this Actions secret:
+The workflow targets the GitHub `production` environment. Configure that
+environment with required reviewers before making the repository public, so a
+change merged to `main` cannot deploy to production without an explicit
+approval.
+
+Add this secret to the `production` environment, not to a source file:
 
 - `CLOUDFLARE_API_TOKEN`: a Cloudflare API token with permission to edit Workers,
   Pages, Durable Objects, and the existing project resources.
 
 `TEAM_PASSWORD` and `SESSION_SECRET` remain encrypted in Cloudflare Pages and are
-not stored in GitHub.
+not stored in GitHub. Pull requests, including pull requests from forks, do not
+receive the production token because the deployment workflow only runs for
+`main` pushes and manual dispatches.
+
+The repository can be public without exposing the production database or
+password: the Cloudflare account/database identifiers in the configuration are
+resource identifiers, while access is controlled by Cloudflare credentials and
+the server-side Pages secrets.
